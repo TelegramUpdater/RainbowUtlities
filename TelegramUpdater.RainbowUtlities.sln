@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelegramUpdater.RainbowUtlities", "RainbowUtlities\TelegramUpdater.RainbowUtlities.csproj", "{6732F591-7D40-44F0-9894-74E0F03C86B9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RainbowUtlitiesTests", "RainbowUtlitiesTests\RainbowUtlitiesTests.csproj", "{E3395995-A28E-4D51-945A-6AB1D79C25C7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RainbowBot", "RainbowBot\RainbowBot.csproj", "{F9EC2F86-8032-42A4-B124-4782E4BB20DF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelegramUpdater.RainbowUtlities", "TelegramUpdater.RainbowUtlities\TelegramUpdater.RainbowUtlities.csproj", "{F56913A6-3011-4D24-8CB7-A53C1746B5A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6732F591-7D40-44F0-9894-74E0F03C86B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6732F591-7D40-44F0-9894-74E0F03C86B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6732F591-7D40-44F0-9894-74E0F03C86B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6732F591-7D40-44F0-9894-74E0F03C86B9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E3395995-A28E-4D51-945A-6AB1D79C25C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E3395995-A28E-4D51-945A-6AB1D79C25C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3395995-A28E-4D51-945A-6AB1D79C25C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +23,10 @@ Global
 		{F9EC2F86-8032-42A4-B124-4782E4BB20DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9EC2F86-8032-42A4-B124-4782E4BB20DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9EC2F86-8032-42A4-B124-4782E4BB20DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F56913A6-3011-4D24-8CB7-A53C1746B5A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F56913A6-3011-4D24-8CB7-A53C1746B5A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F56913A6-3011-4D24-8CB7-A53C1746B5A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F56913A6-3011-4D24-8CB7-A53C1746B5A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
