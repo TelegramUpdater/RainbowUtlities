@@ -20,7 +20,7 @@ namespace TelegramUpdater.RainbowUtlities
         private readonly ConcurrentDictionary<TId, ushort> _ownerIdMapping;
         private readonly Channel<TValue> _mainChannel;
         private readonly Func<TValue, TId> _idResolver;
-        private Func<ShinigInfo<TId, TValue>, CancellationToken, Task>? _handler;
+        private Func<ShiningInfo<TId, TValue>, CancellationToken, Task>? _handler;
         private Func<Exception, CancellationToken, Task>? _exceptionHandler;
         private readonly ILogger<Rainbow<TId, TValue>> _logger;
         private readonly Action<Rainbow<TId, TValue>>? _gotIdle;
@@ -92,7 +92,7 @@ namespace TelegramUpdater.RainbowUtlities
         /// <returns></returns>
         [MemberNotNull("_handler")]
         public async Task ShineAsync(
-            Func<ShinigInfo<TId, TValue>, CancellationToken, Task> callback,
+            Func<ShiningInfo<TId, TValue>, CancellationToken, Task> callback,
             Func<Exception, CancellationToken, Task>? exceptionHandler = default,
             CancellationToken cancellationToken = default)
         {
@@ -189,6 +189,72 @@ namespace TelegramUpdater.RainbowUtlities
             {
                 count = default;
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Tries to get next item in the queue.
+        /// </summary>
+        /// <param name="queueId">Queue id.</param>
+        /// <param name="timeOut">Returns default on this timeout!</param>
+        public async ValueTask<ShiningInfo<TId, TValue>?> ReadNextAsync(
+            ushort queueId, TimeSpan timeOut, CancellationToken cancellationToken = default)
+        {
+            if (!_availableQueues.TryGetValue(queueId, out var channel))
+            {
+                return default;
+            }
+
+            if (channel == null)
+            {
+                return default;
+            }
+
+            // If there's no items in the channel
+            // or there is no running tasks on this queue
+            // return default
+            if (channel.Reader.Count == 0)
+            {
+                if (_workingTasks.TryGetValue(queueId, out var task))
+                {
+                    if (task == null) return default;
+
+                    if (task.Status == TaskStatus.RanToCompletion) return default;
+                }
+            }
+
+            var currentOwner = GetQueueOwner(queueId);
+
+            if (currentOwner == null)
+                throw new InvalidOperationException("An active queue with no owner?");
+
+            var timeOutCts = new CancellationTokenSource();
+            timeOutCts.CancelAfter(timeOut);
+
+            using var linkedCts = CancellationTokenSource
+                .CreateLinkedTokenSource(timeOutCts.Token, cancellationToken);
+
+            try
+            {
+                var result = await channel.Reader.ReadAsync(linkedCts.Token);
+
+                var ownerAgain = GetQueueOwner(queueId);
+
+                if (ownerAgain != null && ownerAgain.Value.Equals(currentOwner.Value))
+                {
+                    return new ShiningInfo<TId, TValue>(result, this, queueId);
+                }
+                else
+                {
+                    return default;
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                if (timeOutCts.IsCancellationRequested) return default;
+
+                // Throw if it's cancelled manually.
+                throw;
             }
         }
 
@@ -339,7 +405,7 @@ namespace TelegramUpdater.RainbowUtlities
                     try
                     {
                         await _handler!(
-                            new ShinigInfo<TId, TValue>(update, this, id), cancellationToken);
+                            new ShiningInfo<TId, TValue>(update, this, id), cancellationToken);
                     }
                     catch (Exception ex)
                     {

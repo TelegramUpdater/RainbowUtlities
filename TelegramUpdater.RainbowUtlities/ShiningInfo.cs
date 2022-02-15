@@ -5,9 +5,9 @@
     /// </summary>
     /// <typeparam name="TId">The object's id.</typeparam>
     /// <typeparam name="TValue">Object's type</typeparam>
-    public sealed class ShinigInfo<TId, TValue> where TId : struct
+    public sealed class ShiningInfo<TId, TValue> where TId : struct
     {
-        internal ShinigInfo(TValue value, Rainbow<TId, TValue> rainbow, ushort processId)
+        internal ShiningInfo(TValue value, Rainbow<TId, TValue> rainbow, ushort processId)
         {
             Value = value;
             Rainbow = rainbow;

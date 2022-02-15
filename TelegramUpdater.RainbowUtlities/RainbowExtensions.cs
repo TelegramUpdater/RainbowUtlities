@@ -9,7 +9,7 @@
         /// <returns></returns>
         public static void Shine<TId, TValue>(
             this Rainbow<TId, TValue> rainbow,
-            Func<ShinigInfo<TId, TValue>, CancellationToken, Task> callback,
+            Func<ShiningInfo<TId, TValue>, CancellationToken, Task> callback,
             Func<Exception, CancellationToken, Task>? exceptionHandler = default,
             CancellationToken cancellationToken = default) where TId : struct
         {
